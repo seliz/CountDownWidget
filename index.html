@@ -1,0 +1,151 @@
+<html>
+	<head>
+		<style>
+			html, body {
+				position: relative;
+				width: 1080px;
+				height: 1920px;
+				background-repeat: no-repeat;
+				background-size: 1080px 1920px;
+			}
+
+			h1 {
+				position: absolute;
+				width: 658px;
+				height: 167px;
+				left: 211px;
+				top: 20%;
+
+				font-family: Ropa Sans;
+				font-style: normal;
+				font-weight: normal;
+				font-size: 150px;
+				line-height: 161px;
+				display: flex;
+				align-items: center;
+				text-align: center;
+				justify-content: center;
+				z-index: 1000;
+				color: #FFFFFF;
+			}
+			p {
+				position: absolute;
+				width: 902px;
+				height: 113px;
+				left: 89px;
+				top: 915px;
+
+				font-family: Ropa Sans;
+				font-style: normal;
+				font-weight: normal;
+				font-size: 96px;
+				line-height: 103px;
+				display: flex;
+				align-items: center;
+				text-align: center;
+				justify-content: center;
+				color: #FFFFFF;
+			}
+			.rect {
+				position: absolute;
+				width: 658px;
+				height: 167px;
+				left: 211px;
+				top: 25%;
+				background: rgba(39, 156, 219, 0.75);
+				border-radius: 50px;
+				align-items: center;
+				justify-content: center;
+			}
+			.rect2 {
+				position: absolute;
+				width: 902px;
+				height: 113px;
+				left: 89px;
+				top: 1003px;
+				background: rgba(66, 67, 69, 0.75);
+				border-radius: 50px;
+			}
+		</style>
+	</head>
+	<body background="media://2044">
+		<div class="rect"></div>
+		<h1 id="eventname"></h1>
+		<div class="rect2"></div>
+		<p id='counter'></p>
+		<script type="text/javascript">
+			//datasource code
+		omma.ready(function() {
+
+			var ds = omma.datasource.get('CountDown');
+			
+			var iseDate = ds.data.date;
+			var iseName = ds.data.name;
+
+			document.getElementById("eventname").innerHTML = iseName;
+
+			//Set the date
+			var countDate = new Date(iseDate).getTime();
+			//Update for each second
+			var a = setInterval(function(){
+				//Get today
+				var now = new Date().getTime();
+				//Get distance
+				var distance = countDate - now;
+				//Time
+				var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+				var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000* 60 *60));
+				var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+				var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+				//
+				document.getElementById("counter").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+
+				if(distance < 0){
+					clearInterval(a);
+					document.getElementById("counter").innerHTML = "ITS TIME!";
+				}
+			}, 1000);
+
+			ds.on('update', function(datasource) {
+				var iseName = datasource.data.name;
+				document.getElementById("eventname").innerHTML = iseName;
+
+				var iseDate = ds.data.date;
+				var countDate = new Date(iseDate).getTime();	
+				
+			});
+
+                /**
+                 * Player options
+                 *
+                 * name: Namespace
+                 * items: Playlist items array [{type: 'image'|'video'|'html'|'iframe', src: string, duration: number, dateRangeEnabled?: boolean, startDate?: Date, endDate?: Date}]
+                 * engine: Syncronization strategy ['playlist', 'playlist-sync-start']
+                 * baseElement?: Optional base element where player is mounted
+                 * syncPort?: Optional orchestrator port
+                 * enableVideoPreload?: Force enable item preloading (Wont work on WebOS)
+                 * showDebugComponent: Shows debug window on screen
+                 */
+                    var player = new Player({
+                        items: __PLAYER_ITEMS__,
+                        name: __PLAYER_ROOM__,
+                        engine: __PLAYER_ENGINE__,
+                        baseElement: document.querySelector('#player'),
+                        showDebugComponent: true
+                    });
+
+                    return player
+                        .init()
+                        .then(function() {
+                            return player.start({from: 0});
+                        })
+                        .catch(function(error) {
+                            signalive.log({level: 'error', message: 'Could not start player', payload: error.message});
+                        });
+
+
+			});
+		</script>
+
+	</body>
+</html>
