@@ -59,9 +59,9 @@
 			}
 			.rect2 {
 				position: absolute;
-				width: 902px;
+				width: 802px;
 				height: 113px;
-				left: 89px;
+				left: 139px;
 				top: 1003px;
 				background: rgba(66, 67, 69, 0.75);
 				border-radius: 50px;
@@ -77,45 +77,67 @@
 			//datasource code
 		omma.ready(function() {
 
-			var ds = omma.datasource.get('CountDown');
+			var ds, iseDate, iseName, countDate, events;
 			
-			var iseDate = ds.data.date;
-			var iseName = ds.data.name;
 
-			document.getElementById("eventname").innerHTML = iseName;
+			function init(){
 
-			//Set the date
-			var countDate = new Date(iseDate).getTime();
-			//Update for each second
-			var a = setInterval(function(){
-				//Get today
-				var now = new Date().getTime();
-				//Get distance
-				var distance = countDate - now;
-				//Time
-				var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-				var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000* 60 *60));
-				var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-				var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-				//
-				document.getElementById("counter").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
-
-				if(distance < 0){
-					clearInterval(a);
-					document.getElementById("counter").innerHTML = "ITS TIME!";
+				if (ds || iseDate || iseName || countDate || events != null){
+					
+					ds, iseDate, iseName, countDate == null;
+					
 				}
-			}, 1000);
+				ds = omma.datasource.get('CountDown');
+				iseDate = ds.data.date;
+				iseName = ds.data.name;
+			}
 
-			ds.on('update', function(datasource) {
-				var iseName = datasource.data.name;
-				document.getElementById("eventname").innerHTML = iseName;
 
-				var iseDate = ds.data.date;
-				var countDate = new Date(iseDate).getTime();	
+			function main(){
+					
+					init();
+
+					document.getElementById("eventname").innerHTML = iseName;
 				
-			});
+					
 
-                /**
+					//Set the date
+					var countDate = new Date(iseDate).getTime();
+					
+					//Update for each second
+					var a = setInterval(function(){
+						//Get today
+						var now = new Date().getTime();
+						//Get distance
+						var distance = countDate - now;
+						//Time
+						var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+						var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000* 60 *60));
+						var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+						var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+						//
+						document.getElementById("counter").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+
+						if(distance < 0){
+							clearInterval(a);
+							document.getElementById("counter").innerHTML = "ITS TIME!";
+						}
+					}, 1000);
+
+					ds.on('update', function(datasource) {
+						var iseName = datasource.data.name;
+						document.getElementById("eventname").innerHTML = iseName;
+
+						var iseDate = ds.data.date;
+						var countDate = new Date(iseDate).getTime();	
+						
+					});
+			}
+			main();
+
+		});
+			
+				/**
                  * Player options
                  *
                  * name: Namespace
@@ -125,7 +147,8 @@
                  * syncPort?: Optional orchestrator port
                  * enableVideoPreload?: Force enable item preloading (Wont work on WebOS)
                  * showDebugComponent: Shows debug window on screen
-                 */
+                 
+				 
                     var player = new Player({
                         items: __PLAYER_ITEMS__,
                         name: __PLAYER_ROOM__,
@@ -142,9 +165,8 @@
                         .catch(function(error) {
                             signalive.log({level: 'error', message: 'Could not start player', payload: error.message});
                         });
-
-
-			});
+				**/
+				
 		</script>
 
 	</body>
