@@ -77,32 +77,21 @@
 			//datasource code
 		omma.ready(function() {
 
-			var ds, iseDate, iseName, countDate, events;
-			
+			var ds, countDate, events, item, nameLabel, dateLabel;
 
-			function init(){
 
-				if (ds || iseDate || iseName || countDate || events != null){
-					
-					ds, iseDate, iseName, countDate == null;
-					
-				}
-				ds = omma.datasource.get('CountDown');
-				iseDate = ds.data.date;
-				iseName = ds.data.name;
+			function random_selector(){
+				nameLabel = document.getElementById("eventname");
+				dateLabel = document.getElementById("counter");
+				item = events[Math.floor(Math.random()*events.length)];
+				nameLabel.innerHTML = item.name;
+				var x = item.date;
+				date_setter(x);
 			}
 
-
-			function main(){
-					
-					init();
-
-					document.getElementById("eventname").innerHTML = iseName;
-				
-					
-
-					//Set the date
-					var countDate = new Date(iseDate).getTime();
+			function date_setter(b){
+				//Set the date
+					countDate = new Date(b).getTime();
 					
 					//Update for each second
 					var a = setInterval(function(){
@@ -123,13 +112,41 @@
 							document.getElementById("counter").innerHTML = "ITS TIME!";
 						}
 					}, 1000);
+			}
+
+
+			function init(){
+
+				if (ds || countDate || events || item || nameLabel || dateLabel != null){
+					
+					ds, countDate, item, nameLabel, dateLabel == null;
+					events = [];
+					
+				}
+
+				ds = omma.datasource.get('CountDown');
+				events = ds.data.events;
+				
+
+			}
+
+
+			function main(){
+					
+					init();
+					
+
+					//document.getElementById("eventname").innerHTML = events[0].name;
+					
+					random_selector();
+					setInterval(random_selector, 30000);
+					
 
 					ds.on('update', function(datasource) {
-						var iseName = datasource.data.name;
-						document.getElementById("eventname").innerHTML = iseName;
+						var events = [ds.data];
+						document.getElementById("eventname").innerHTML = events[0].name;
 
-						var iseDate = ds.data.date;
-						var countDate = new Date(iseDate).getTime();	
+						var countDate = new Date(events[0].date).getTime();	
 						
 					});
 			}
