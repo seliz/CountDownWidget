@@ -1,78 +1,98 @@
 <html>
 	<head>
+		<link href="https://fonts.googleapis.com/css?family=Ropa+Sans&display=swap" rel="stylesheet">
 		<style>
 			html, body {
+				position: relative;			
+			}
+
+			.fake {
 				position: relative;
-				width: 1080px;
-				height: 1920px;
+				width: 1900px;
+				height: 1060px;
 				background-repeat: no-repeat;
-				background-size: 1080px 1920px;
+				background-size: 1920px 1080px;
+				background-image: url('media://2165');
+				z-index: -1;
+				opacity: 0.75;
+				filter: blur(5px);
+
 			}
 
 			h1 {
-				position: absolute;
+				
 				width: 658px;
 				height: 167px;
-				left: 211px;
-				top: 20%;
 
 				font-family: Ropa Sans;
-				font-style: normal;
-				font-weight: normal;
-				font-size: 150px;
-				line-height: 161px;
-				display: flex;
-				align-items: center;
+				//font-style: normal;
+				font-weight: 900;
+				font-size: 120px;
 				text-align: center;
+				display: flex;
+				
 				justify-content: center;
 				z-index: 1000;
-				color: #FFFFFF;
+				color: #6D36F8;
+
+				margin: auto;
+				padding: 15px;
+				
 			}
-			p {
+			h2 {
 				position: absolute;
 				width: 902px;
-				height: 113px;
-				left: 89px;
-				top: 915px;
-
+				height: 142px;
+				
 				font-family: Ropa Sans;
 				font-style: normal;
 				font-weight: normal;
 				font-size: 96px;
-				line-height: 103px;
-				display: flex;
-				align-items: center;
 				text-align: center;
+				display: flex;
+				margin: auto;
+				
 				justify-content: center;
-				color: #FFFFFF;
+				color: #6D36F8;
+				padding: 15px;
+				
 			}
 			.rect {
 				position: absolute;
 				width: 658px;
 				height: 167px;
-				left: 211px;
-				top: 25%;
-				background: rgba(39, 156, 219, 0.75);
+				left: 631px;
+				top: 252px;
+				background: #FFFFFF;
 				border-radius: 50px;
 				align-items: center;
 				justify-content: center;
+				border: 10px solid #6D36F8;
+				box-shadow: 10px 10px 5px 0px rgba(1,1,1,0.5);
 			}
 			.rect2 {
 				position: absolute;
-				width: 802px;
-				height: 113px;
-				left: 139px;
-				top: 1003px;
-				background: rgba(66, 67, 69, 0.75);
+				width: 902px;
+				height: 142px;
+				left: 509px;
+				top: 686px;
+				background: #FFFFFF;
 				border-radius: 50px;
+				justify-content: center;
+				align-items: center;
+				border: 10px solid #6D36F8;
+				box-shadow: 10px 10px 5px 0px rgba(1,1,1,0.5);
 			}
 		</style>
 	</head>
-	<body background="media://2044">
-		<div class="rect"></div>
-		<h1 id="eventname"></h1>
-		<div class="rect2"></div>
-		<p id='counter'></p>
+	<body>
+		<div class="rect">
+			<h1 id="eventname"></h1>
+		</div>
+		<div class="rect2">
+			<h2 id='counter'></h2>
+		</div>
+		<div class="fake"></div>
 		<script type="text/javascript">
 			//datasource code
 		omma.ready(function() {
@@ -135,7 +155,6 @@
 					
 					init();
 					
-
 					//document.getElementById("eventname").innerHTML = events[0].name;
 					
 					random_selector();
